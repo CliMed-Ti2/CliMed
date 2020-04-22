@@ -18,6 +18,7 @@ namespace CliMed.Models
         [Key]
         public int idMedico { get; set; }
 
+        // Comment
         [Required(ErrorMessage ="O {0} é de preenchimento obrigatório!")]
         [StringLength(10)]
         public string nCedula { get; set; }
