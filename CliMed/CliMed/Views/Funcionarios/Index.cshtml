@@ -1,13 +1,13 @@
-﻿@model IEnumerable<CliMed.Models.Utentes>
+﻿@model IEnumerable<CliMed.Models.Funcionarios>
 
 @{
-    ViewData["Title"] = "Utentes";
+    ViewData["Title"] = "Funcionários";
 }
 
-<h1>Utentes</h1>
+<h1>Funcionários</h1>
 
 <p>
-    <a asp-action="Create">Criar novo Utente</a>
+    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -32,6 +32,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NIF)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Clinica)
             </th>
             <th></th>
         </tr>
@@ -61,9 +64,12 @@
                 @Html.DisplayFor(modelItem => item.NIF)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdUtente">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.IdUtente">Detalhes</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdUtente">Apagar</a>
+                @Html.DisplayFor(modelItem => item.Clinica.IdClinica)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdFuncionario">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IdFuncionario">Detalhes</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdFuncionario">Apagar</a>
             </td>
         </tr>
 }

@@ -26,6 +26,7 @@ namespace CliMed.Models
 
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório!")]
         [StringLength(9)]
+        [RegularExpression("9[0-9]{8}", ErrorMessage = "O {0} deve ter 9 dígitos e começar por 9 ")]
         public string Contacto { get; set; }
 
         [Required(ErrorMessage ="O {0} é de preenchimento obrigatório!")]

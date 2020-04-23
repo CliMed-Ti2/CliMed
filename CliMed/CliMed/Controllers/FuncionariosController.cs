@@ -10,22 +10,23 @@ using CliMed.Models;
 
 namespace CliMed.Controllers
 {
-    public class UtentesController : Controller
+    public class FuncionariosController : Controller
     {
         private readonly CliMedBD db;
 
-        public UtentesController(CliMedBD context)
+        public FuncionariosController(CliMedBD context)
         {
             db = context;
         }
 
-        // GET: Utentes
+        // GET: Funcionarios
         public async Task<IActionResult> Index()
         {
-            return View(await db.Utentes.ToListAsync());
+            var cliMedBD = db.Funcionarios.Include(f => f.Clinica);
+            return View(await cliMedBD.ToListAsync());
         }
 
-        // GET: Utentes/Details/5
+        // GET: Funcionarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,40 +34,43 @@ namespace CliMed.Controllers
                 return NotFound();
             }
 
-            var utentes = await db.Utentes
-                .FirstOrDefaultAsync(u => u.IdUtente == id);
-            if (utentes == null)
+            var funcionarios = await db.Funcionarios
+                .Include(f => f.Clinica)
+                .FirstOrDefaultAsync(f => f.IdFuncionario == id);
+            if (funcionarios == null)
             {
                 //return NotFound();
-                return RedirectToAction("Index");
+                RedirectToAction("Index");
             }
 
-            return View(utentes);
+            return View(funcionarios);
         }
 
-        // GET: Utentes/Create
+        // GET: Funcionarios/Create
         public IActionResult Create()
         {
+            ViewData["ClinicaFK"] = new SelectList(db.Clinicas, "IdClinica", "Contacto");
             return View();
         }
 
-        // POST: Utentes/Create
+        // POST: Funcionarios/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdUtente,Nome,DataNasc,Contacto,Mail,Morada,CC,NIF")] Utentes utentes)
+        public async Task<IActionResult> Create([Bind("IdFuncionario,Nome,DataNasc,Contacto,Mail,Morada,CC,NIF,ClinicaFK")] Funcionarios funcionarios)
         {
             if (ModelState.IsValid)
             {
-                db.Add(utentes);
+                db.Add(funcionarios);
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(utentes);
+            ViewData["ClinicaFK"] = new SelectList(db.Clinicas, "IdClinica", "Contacto", funcionarios.ClinicaFK);
+            return View(funcionarios);
         }
 
-        // GET: Utentes/Edit/5
+        // GET: Funcionarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,23 +78,24 @@ namespace CliMed.Controllers
                 return NotFound();
             }
 
-            var utentes = await db.Utentes.FindAsync(id);
-            if (utentes == null)
+            var funcionarios = await db.Funcionarios.FindAsync(id);
+            if (funcionarios == null)
             {
                 //return NotFound();
                 RedirectToAction("Index");
             }
-            return View(utentes);
+            ViewData["ClinicaFK"] = new SelectList(db.Clinicas, "IdClinica", "Contacto", funcionarios.ClinicaFK);
+            return View(funcionarios);
         }
 
-        // POST: Utentes/Edit/5
+        // POST: Funcionarios/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdUtente,Nome,DataNasc,Contacto,Mail,Morada,CC,NIF")] Utentes utentes)
+        public async Task<IActionResult> Edit(int id, [Bind("IdFuncionario,Nome,DataNasc,Contacto,Mail,Morada,CC,NIF,ClinicaFK")] Funcionarios funcionarios)
         {
-            if (id != utentes.IdUtente)
+            if (id != funcionarios.IdFuncionario)
             {
                 return NotFound();
             }
@@ -99,12 +104,12 @@ namespace CliMed.Controllers
             {
                 try
                 {
-                    db.Update(utentes);
+                    db.Update(funcionarios);
                     await db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UtentesExists(utentes.IdUtente))
+                    if (!FuncionariosExists(funcionarios.IdFuncionario))
                     {
                         return NotFound();
                     }
@@ -115,10 +120,11 @@ namespace CliMed.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(utentes);
+            ViewData["ClinicaFK"] = new SelectList(db.Clinicas, "IdClinica", "Contacto", funcionarios.ClinicaFK);
+            return View(funcionarios);
         }
 
-        // GET: Utentes/Delete/5
+        // GET: Funcionarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,31 +132,32 @@ namespace CliMed.Controllers
                 return NotFound();
             }
 
-            var utente = await db.Utentes
-                .FirstOrDefaultAsync(u => u.IdUtente == id);
-            if (utente == null)
+            var funcionarios = await db.Funcionarios
+                .Include(f => f.Clinica)
+                .FirstOrDefaultAsync(f => f.IdFuncionario == id);
+            if (funcionarios == null)
             {
                 //return NotFound();
                 RedirectToAction("Index");
             }
 
-            return View(utente);
+            return View(funcionarios);
         }
 
-        // POST: Utentes/Delete/5
+        // POST: Funcionarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var utentes = await db.Utentes.FindAsync(id);
-            db.Utentes.Remove(utentes);
+            var funcionarios = await db.Funcionarios.FindAsync(id);
+            db.Funcionarios.Remove(funcionarios);
             await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UtentesExists(int id)
+        private bool FuncionariosExists(int id)
         {
-            return db.Utentes.Any(u => u.IdUtente == id);
+            return db.Funcionarios.Any(f => f.IdFuncionario == id);
         }
     }
 }
