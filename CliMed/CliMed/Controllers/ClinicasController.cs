@@ -10,22 +10,22 @@ using CliMed.Models;
 
 namespace CliMed.Controllers
 {
-    public class UtentesController : Controller
+    public class ClinicasController : Controller
     {
         private readonly CliMedBD db;
 
-        public UtentesController(CliMedBD context)
+        public ClinicasController(CliMedBD context)
         {
             db = context;
         }
 
-        // GET: Utentes
+        // GET: Clinicas
         public async Task<IActionResult> Index()
         {
-            return View(await db.Utentes.ToListAsync());
+            return View(await db.Clinicas.ToListAsync());
         }
 
-        // GET: Utentes/Details/5
+        // GET: Clinicas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,40 +33,40 @@ namespace CliMed.Controllers
                 return NotFound();
             }
 
-            var utentes = await db.Utentes
-                .FirstOrDefaultAsync(u => u.IdUtente == id);
-            if (utentes == null)
+            var clinicas = await db.Clinicas
+                .FirstOrDefaultAsync(c => c.IdClinica == id);
+            if (clinicas == null)
             {
                 //return NotFound();
                 return RedirectToAction("Index");
             }
 
-            return View(utentes);
+            return View(clinicas);
         }
 
-        // GET: Utentes/Create
+        // GET: Clinicas/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Utentes/Create
+        // POST: Clinicas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdUtente,Nome,DataNasc,Contacto,Mail,Morada,CC,NIF")] Utentes utentes)
+        public async Task<IActionResult> Create([Bind("IdClinica,Morada,Contacto,Mail,Foto")] Clinicas clinicas)
         {
             if (ModelState.IsValid)
             {
-                db.Add(utentes);
+                db.Add(clinicas);
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(utentes);
+            return View(clinicas);
         }
 
-        // GET: Utentes/Edit/5
+        // GET: Clinicas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,23 +74,23 @@ namespace CliMed.Controllers
                 return NotFound();
             }
 
-            var utentes = await db.Utentes.FindAsync(id);
-            if (utentes == null)
+            var clinicas = await db.Clinicas.FindAsync(id);
+            if (clinicas == null)
             {
                 //return NotFound();
-                RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
-            return View(utentes);
+            return View(clinicas);
         }
 
-        // POST: Utentes/Edit/5
+        // POST: Clinicas/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdUtente,Nome,DataNasc,Contacto,Mail,Morada,CC,NIF")] Utentes utentes)
+        public async Task<IActionResult> Edit(int id, [Bind("IdClinica,Morada,Contacto,Mail,Foto")] Clinicas clinicas)
         {
-            if (id != utentes.IdUtente)
+            if (id != clinicas.IdClinica)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace CliMed.Controllers
             {
                 try
                 {
-                    db.Update(utentes);
+                    db.Update(clinicas);
                     await db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UtentesExists(utentes.IdUtente))
+                    if (!ClinicasExists(clinicas.IdClinica))
                     {
                         return NotFound();
                     }
@@ -115,10 +115,10 @@ namespace CliMed.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(utentes);
+            return View(clinicas);
         }
 
-        // GET: Utentes/Delete/5
+        // GET: Clinicas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,31 +126,31 @@ namespace CliMed.Controllers
                 return NotFound();
             }
 
-            var utente = await db.Utentes
-                .FirstOrDefaultAsync(u => u.IdUtente == id);
-            if (utente == null)
+            var clinicas = await db.Clinicas
+                .FirstOrDefaultAsync(c => c.IdClinica == id);
+            if (clinicas == null)
             {
                 //return NotFound();
-                RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
-            return View(utente);
+            return View(clinicas);
         }
 
-        // POST: Utentes/Delete/5
+        // POST: Clinicas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var utentes = await db.Utentes.FindAsync(id);
-            db.Utentes.Remove(utentes);
+            var clinicas = await db.Clinicas.FindAsync(id);
+            db.Clinicas.Remove(clinicas);
             await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UtentesExists(int id)
+        private bool ClinicasExists(int id)
         {
-            return db.Utentes.Any(u => u.IdUtente == id);
+            return db.Clinicas.Any(c => c.IdClinica == id);
         }
     }
 }
