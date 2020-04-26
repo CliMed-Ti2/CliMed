@@ -1,0 +1,65 @@
+﻿@model IEnumerable<CliMed.Models.Materiais>
+
+@{
+    ViewData["Title"] = "Materiais";
+}
+
+    <h1>Materiais</h1>
+
+<p>
+    <a asp-action="Create">Adicionar um novo Material</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecoCompra)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.precoVenda)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Clinica)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecoCompra)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.precoVenda)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Clinica.Contacto)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdMaterial">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IdMaterial">Detalhes</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdMaterial">Apagar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

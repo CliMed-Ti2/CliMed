@@ -12,16 +12,30 @@ namespace CliMed.Models
         [Key]
         public int IdClinica { get; set; }
 
+
+        /// <summary>
+        /// Data de Marcacao da Consulta
+        /// </summary>
         [Required(ErrorMessage = "A {0} é de preenchimento obrigatório!")]
         public DateTime DataMarcacao { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Required(ErrorMessage = "A {0} é de preenchimento obrigatório!")]
         public bool EstConsulta { get; set; }
 
+        /// <summary>
+        /// Descrição da consulta
+        /// </summary>
         [Required(ErrorMessage = "A {0} é de preenchimento obrigatório!")]
         [StringLength(200)]
         public string Descricao { get; set; }
 
+
+        /// <summary>
+        /// Receita 
+        /// </summary>
         [StringLength(200)]
         public string Receita { get; set; }
 
