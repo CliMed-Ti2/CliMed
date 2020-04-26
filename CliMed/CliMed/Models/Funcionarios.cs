@@ -47,6 +47,7 @@ namespace CliMed.Models
         [RegularExpression("[0-9]{9}", ErrorMessage = "O {0} deve ter 9 dígitos.")]
         public string NIF { get; set; }
 
+        [Display(Name = "Clinica Pertencente")]
         //Chaves Estrangeiras
         [ForeignKey(nameof(Clinica))]
         public int ClinicaFK { get; set; }
