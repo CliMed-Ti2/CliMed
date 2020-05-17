@@ -182,5 +182,8 @@ namespace CliMed.Data
         public DbSet<Clinicas> Clinicas{ get; set; }
         public DbSet<Funcionarios> Funcionarios { get; set; }
         public DbSet<Materiais> Materiais { get; set; }
+        public DbSet<Fornecedores> Fornecedores { get; set; }
+        public DbSet<Administradores> Administradores { get; set; }
+        public DbSet<Medicos> Medicos { get; set; }
     }
 }

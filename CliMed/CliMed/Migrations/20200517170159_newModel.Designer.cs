@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CliMed.Migrations
 {
     [DbContext(typeof(CliMedBD))]
-    [Migration("20200423134820_testResolveError")]
-    partial class testResolveError
+    [Migration("20200517170159_newModel")]
+    partial class newModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,27 @@ namespace CliMed.Migrations
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("CliMed.Models.Administradores", b =>
+                {
+                    b.Property<int>("idAmin")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AreaEsp")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("FuncionarioIdFuncionario")
+                        .HasColumnType("int");
+
+                    b.HasKey("idAmin");
+
+                    b.HasIndex("FuncionarioIdFuncionario");
+
+                    b.ToTable("Administradores");
+                });
 
             modelBuilder.Entity("CliMed.Models.Clinicas", b =>
                 {
@@ -52,46 +73,51 @@ namespace CliMed.Migrations
                     b.ToTable("Clinicas");
                 });
 
-            modelBuilder.Entity("CliMed.Models.Consultas", b =>
+            modelBuilder.Entity("CliMed.Models.Fornecedores", b =>
                 {
-                    b.Property<int>("IdClinica")
+                    b.Property<int>("idFornecedor")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClinicaFK")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DataMarcacao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Descricao")
+                    b.Property<string>("CodPostal")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("EstConsulta")
-                        .HasColumnType("bit");
+                    b.Property<string>("Contacto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MedicoFK")
+                    b.Property<string>("Designacao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Localidade")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("NIF")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(9)")
+                        .HasMaxLength(9);
+
+                    b.Property<string>("Rua")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(60)")
+                        .HasMaxLength(60);
+
+                    b.Property<string>("nAndar")
+                        .HasColumnType("nvarchar(2)")
+                        .HasMaxLength(2);
+
+                    b.Property<int>("nPorta")
                         .HasColumnType("int");
 
-                    b.Property<string>("Receita")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                    b.HasKey("idFornecedor");
 
-                    b.Property<int>("UtenteFK")
-                        .HasColumnType("int");
-
-                    b.HasKey("IdClinica");
-
-                    b.HasIndex("ClinicaFK");
-
-                    b.HasIndex("MedicoFK");
-
-                    b.HasIndex("UtenteFK");
-
-                    b.ToTable("Consultas");
+                    b.ToTable("Fornecedores");
                 });
 
             modelBuilder.Entity("CliMed.Models.Funcionarios", b =>
@@ -106,9 +132,6 @@ namespace CliMed.Migrations
                         .HasColumnType("nvarchar(13)")
                         .HasMaxLength(13);
 
-                    b.Property<int>("ClinicaFK")
-                        .HasColumnType("int");
-
                     b.Property<string>("Contacto")
                         .IsRequired()
                         .HasColumnType("nvarchar(9)")
@@ -119,13 +142,7 @@ namespace CliMed.Migrations
 
                     b.Property<string>("Mail")
                         .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("Morada")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(60)")
-                        .HasMaxLength(60);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NIF")
                         .IsRequired()
@@ -138,8 +155,6 @@ namespace CliMed.Migrations
                         .HasMaxLength(40);
 
                     b.HasKey("IdFuncionario");
-
-                    b.HasIndex("ClinicaFK");
 
                     b.ToTable("Funcionarios");
                 });
@@ -186,35 +201,11 @@ namespace CliMed.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AnosExp")
+                    b.Property<int?>("FuncionarioIdFuncionario")
                         .HasColumnType("int");
 
-                    b.Property<string>("CC")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Contacto")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DataNasc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Mail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Morada")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NIF")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("anosExp")
+                        .HasColumnType("int");
 
                     b.Property<string>("nCedula")
                         .IsRequired()
@@ -222,80 +213,16 @@ namespace CliMed.Migrations
 
                     b.HasKey("idMedico");
 
+                    b.HasIndex("FuncionarioIdFuncionario");
+
                     b.ToTable("Medicos");
                 });
 
-            modelBuilder.Entity("CliMed.Models.Utentes", b =>
+            modelBuilder.Entity("CliMed.Models.Administradores", b =>
                 {
-                    b.Property<int>("IdUtente")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CC")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Contacto")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(9)")
-                        .HasMaxLength(9);
-
-                    b.Property<DateTime>("DataNasc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Mail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("Morada")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(60)")
-                        .HasMaxLength(60);
-
-                    b.Property<string>("NIF")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
-
-                    b.HasKey("IdUtente");
-
-                    b.ToTable("Utentes");
-                });
-
-            modelBuilder.Entity("CliMed.Models.Consultas", b =>
-                {
-                    b.HasOne("CliMed.Models.Clinicas", "Clinica")
+                    b.HasOne("CliMed.Models.Funcionarios", "Funcionario")
                         .WithMany()
-                        .HasForeignKey("ClinicaFK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CliMed.Models.Medicos", "Medico")
-                        .WithMany("ListaDeConsultas")
-                        .HasForeignKey("MedicoFK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CliMed.Models.Utentes", "Utente")
-                        .WithMany()
-                        .HasForeignKey("UtenteFK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CliMed.Models.Funcionarios", b =>
-                {
-                    b.HasOne("CliMed.Models.Clinicas", "Clinica")
-                        .WithMany()
-                        .HasForeignKey("ClinicaFK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FuncionarioIdFuncionario");
                 });
 
             modelBuilder.Entity("CliMed.Models.Materiais", b =>
@@ -305,6 +232,13 @@ namespace CliMed.Migrations
                         .HasForeignKey("ClinicaFK")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CliMed.Models.Medicos", b =>
+                {
+                    b.HasOne("CliMed.Models.Funcionarios", "Funcionario")
+                        .WithMany()
+                        .HasForeignKey("FuncionarioIdFuncionario");
                 });
 #pragma warning restore 612, 618
         }
