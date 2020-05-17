@@ -24,7 +24,7 @@ namespace CliMed.Models
         public string Descricao { get; set; }
 
         /// <summary>
-        /// Indicação do Stock existente do Material.
+        /// Indicação do Stock existente do Material
         /// </summary>
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório!")]
         public int Stock { get; set; }
