@@ -13,18 +13,29 @@ namespace CliMed.Models
         /// </summary>
         [Key]
         public int IDProduto { get; set; }
+
+
         /// <summary>
         /// Designação do Produto
         /// </summary>
         [Required(ErrorMessage = "A {0} é de preenchimento obrigatório!")]
         [StringLength(30)]
         [Display(Name = "Designação")]
+        [RegularExpression("[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]{3,18}",
+            ErrorMessage = "A Designação deve começar por letra Maiúscula")]
         public string Designacao { get; set; }
+
+
         /// <summary>
         /// Indentificação do Tipo de Material - Consumivel...
         /// </summary>
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório!")]
+        [RegularExpression("[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]{3,18}",
+            ErrorMessage = "O Tipo do Produto deve começar por letra Maiúscula")]
         public string Tipo { get; set; }
+
+
+
         /// <summary>
         /// Foto do Produto
         /// </summary>
