@@ -64,7 +64,7 @@ namespace CliMed.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdClinica,Rua,nPorta,nAndar,CodPostal,Localidade,NIF,Contacto,EMail,Foto")] Clinicas clinicas,IFormFile fotoClinica)
+        public async Task<IActionResult> Create([Bind("IdClinica,Nome,Rua,nPorta,nAndar,CodPostal,Localidade,NIF,Contacto,EMail,Foto")] Clinicas clinicas,IFormFile fotoClinica)
         {
             /*Variáveis de controlo do Ficheiro*/
             bool existeFicheiro = false;
@@ -156,12 +156,48 @@ namespace CliMed.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdClinica,Rua,nPorta,nAndar,CodPostal,Localidade,NIF,Contacto,EMail,Foto")] Clinicas clinicas)
+        public async Task<IActionResult> Edit(int id, [Bind("IdClinica,Nome,Rua,nPorta,nAndar,CodPostal,Localidade,NIF,Contacto,EMail,Foto")] Clinicas clinicas,IFormFile fotoClinica)
         {
+            /*Variáveis de controlo do Ficheiro*/
+            bool existeFotoEditar = false;
+            string caminhoCompleto = "";
+
             if (id != clinicas.IdClinica)
             {
                 return NotFound();
             }
+
+                /*Verificação da Existência da Foto*/
+                if (fotoClinica != null)
+                {
+                    /*Verificação do tipo(extensão) da foto*/
+                    if (fotoClinica.ContentType == "image/jpeg" || fotoClinica.ContentType == "image/png")
+                    {
+                        //Gerar um Nome para o Ficheiro
+                        Guid g;
+                        g = Guid.NewGuid();
+
+                        string extension = Path.GetExtension(fotoClinica.FileName).ToLower();
+                        string nomeFicheiro = g.ToString() + extension;
+
+                        //Guardar o Ficheiro
+                        caminhoCompleto = Path.Combine(_caminho.WebRootPath, "imagens\\clinicas", nomeFicheiro);
+
+
+                        //Atribuiçao do nome do Ficheiro a Clinica
+                        clinicas.Foto = nomeFicheiro;
+
+                        //Neste caso como recebeu uma foto , então é para Atualizar a Foto, Flag de Editar
+                        existeFotoEditar = true;
+                    }
+                    else
+                    {
+
+                    }
+
+                }
+   
+
 
             if (ModelState.IsValid)
             {
@@ -169,6 +205,16 @@ namespace CliMed.Controllers
                 {
                     db.Update(clinicas);
                     await db.SaveChangesAsync();
+                    
+                    //Existe Foto para Editar?
+                    if (existeFotoEditar)
+                    {
+                        //Criação de um FileStream , contendo o caminho completo da foto Da Clinica
+                        using var stream = new FileStream(caminhoCompleto, FileMode.Create);
+
+                        //"Commit"/Upload da foto
+                        await fotoClinica.CopyToAsync(stream);
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {

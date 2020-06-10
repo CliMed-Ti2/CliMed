@@ -4,14 +4,16 @@ using CliMed.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CliMed.Migrations
 {
     [DbContext(typeof(CliMedBD))]
-    partial class CliMedBDModelSnapshot : ModelSnapshot
+    [Migration("20200610151936_NovoCampo")]
+    partial class NovoCampo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -20,6 +20,17 @@ namespace CliMed.Models
         /// </summary>
         [Key]
         public int IdClinica { get; set; }
+
+
+        /// <summary>
+        /// Nome da Clinica
+        /// </summary>
+        [Required(ErrorMessage = "A {0} é de preenchimento obrigatório!")]
+        [StringLength(25)]
+        [RegularExpression("[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]+(( | e | de | d[ao](s)? |-|'| d')[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]+){1,3}",
+            ErrorMessage = "Só são aceites nomes, começados por letra Maiúscula, separados entre si por um espaço em branco.")]
+        public String Nome { get; set; }
+
         /// <summary>
         /// Identificação da Rua onde a Clinica Existe
         /// </summary>

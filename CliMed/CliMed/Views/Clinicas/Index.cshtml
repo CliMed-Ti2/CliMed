@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Rua)
             </th>
             <th>
@@ -46,6 +49,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Rua)
             </td>
             <td>
@@ -71,9 +77,8 @@
             </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.IdClinica">
-                    <img src="~/imagens/clinicas/@item.Foto" width="100" alt="Foto Não Disponivel" title="@item.Localidade" />
+                    <img src="~/imagens/clinicas/@item.Foto" width="125" alt="Foto Não Disponivel" title="@item.Nome" />
                 </a>
-                @Html.DisplayFor(modelItem => item.Foto)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdClinica">Editar</a> |
