@@ -7,22 +7,32 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CliMed.Data;
 using CliMed.Models;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace CliMed.Controllers
 {
     public class ClinicasController : Controller
     {
-        private readonly CliMedBD _context;
+        /// <summary>
+        /// Atributo representa uma referência à nossa base de dados
+        /// </summary>
+        private readonly CliMedBD db;
 
-        public ClinicasController(CliMedBD context)
+
+        private readonly IWebHostEnvironment _caminho;
+
+        public ClinicasController(CliMedBD context,IWebHostEnvironment caminho)
         {
-            _context = context;
+            this.db = context;
+            this._caminho = caminho;
         }
 
         // GET: Clinicas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Clinicas.ToListAsync());
+            return View(await db.Clinicas.ToListAsync());
         }
 
         // GET: Clinicas/Details/5
@@ -33,7 +43,7 @@ namespace CliMed.Controllers
                 return NotFound();
             }
 
-            var clinicas = await _context.Clinicas
+            var clinicas = await db.Clinicas
                 .FirstOrDefaultAsync(m => m.IdClinica == id);
             if (clinicas == null)
             {
@@ -54,14 +64,74 @@ namespace CliMed.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdClinica,Rua,nPorta,nAndar,CodPostal,Localidade,NIF,Contacto,EMail,Foto")] Clinicas clinicas)
+        public async Task<IActionResult> Create([Bind("IdClinica,Rua,nPorta,nAndar,CodPostal,Localidade,NIF,Contacto,EMail,Foto")] Clinicas clinicas,IFormFile fotoClinica)
         {
-            if (ModelState.IsValid)
+            /*Variáveis de controlo do Ficheiro*/
+            bool existeFicheiro = false;
+            string caminhoCompleto = "";
+
+            /*Verificação da Existência da Foto*/
+            if (fotoClinica != null)
             {
-                _context.Add(clinicas);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                /*Verificação do tipo(extensão) da foto*/
+                if (fotoClinica.ContentType == "image/jpeg" || fotoClinica.ContentType == "image/png")
+                {
+                    //Gerar um Nome para o Ficheiro
+                    Guid g;
+                    g = Guid.NewGuid();
+
+                    string extension = Path.GetExtension(fotoClinica.FileName).ToLower();
+                    string nomeFicheiro = g.ToString() + extension;
+
+                    //Guardar o Ficheiro
+                    caminhoCompleto = Path.Combine(_caminho.WebRootPath, "imagens\\clinicas", nomeFicheiro);
+
+
+                    //Atribuiçao do nome do Ficheiro a Clinica
+                    clinicas.Foto = nomeFicheiro;
+
+                    //Flag a indicar que a foto existe
+                    existeFicheiro = true;
+                }
+                else {
+                
+                    //Caso não a foto não seja legivel , atribuir uma foto por defeito?
+                }
+            
             }
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    //Adiciona uma Clinica a BD , mas na memória do ASP .NET
+                    db.Add(clinicas);
+
+                    //"Commit" no Servidor de BD
+                    await db.SaveChangesAsync();
+
+                    //Existe Foto para Gravar?
+                    if (existeFicheiro) 
+                    {
+                        //Criação de um FileStream , contendo o caminho completo da foto Da Clinica
+                        using var stream = new FileStream(caminhoCompleto, FileMode.Create);
+
+                        //"Commit"/Upload da foto
+                        await fotoClinica.CopyToAsync(stream);
+                    }
+
+                    //Retorna Para a View do Index
+                    return RedirectToAction(nameof(Index));
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            //Quando ocorre um erro , reenviar os Dados da clinica para a view da sua criação.
             return View(clinicas);
         }
 
@@ -73,7 +143,7 @@ namespace CliMed.Controllers
                 return NotFound();
             }
 
-            var clinicas = await _context.Clinicas.FindAsync(id);
+            var clinicas = await db.Clinicas.FindAsync(id);
             if (clinicas == null)
             {
                 return NotFound();
@@ -97,8 +167,8 @@ namespace CliMed.Controllers
             {
                 try
                 {
-                    _context.Update(clinicas);
-                    await _context.SaveChangesAsync();
+                    db.Update(clinicas);
+                    await db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,7 +194,7 @@ namespace CliMed.Controllers
                 return NotFound();
             }
 
-            var clinicas = await _context.Clinicas
+            var clinicas = await db.Clinicas
                 .FirstOrDefaultAsync(m => m.IdClinica == id);
             if (clinicas == null)
             {
@@ -139,15 +209,15 @@ namespace CliMed.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var clinicas = await _context.Clinicas.FindAsync(id);
-            _context.Clinicas.Remove(clinicas);
-            await _context.SaveChangesAsync();
+            var clinicas = await db.Clinicas.FindAsync(id);
+            db.Clinicas.Remove(clinicas);
+            await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ClinicasExists(int id)
         {
-            return _context.Clinicas.Any(e => e.IdClinica == id);
+            return db.Clinicas.Any(e => e.IdClinica == id);
         }
     }
 }
