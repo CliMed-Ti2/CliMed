@@ -18,7 +18,7 @@ namespace CliMed.Models
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório!")]
         [StringLength(40)]
         [RegularExpression("[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]+(( | e | de | d[ao](s)? |-|'| d')[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]+){1,3}",
-                 ErrorMessage = "Só são aceites nomes, começados por letra Maiúscula, separBados entre si por um espaço em branco.")]
+                 ErrorMessage = "Só são aceites nomes, começados por letra Maiúscula, separados entre si por um espaço em branco.")]
         public string Nome { get; set; }
 
         /// <summary>
@@ -54,15 +54,14 @@ namespace CliMed.Models
         /// </summary>
         [Required(ErrorMessage = "A {0} é de preenchimento obrigatório!")]
         [StringLength(60)]
-        [RegularExpression("[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]{3,18}",
+        [RegularExpression("[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]+(( | e | de | d[ao](s)? |-|'| d')[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]+){1,3}",
             ErrorMessage = "Só são aceites nomes, começados por letra Maiúscula, separados entre si por um espaço em branco.")]
-
         public string Morada { get; set; }
 
 
         /// <summary>
         /// Número do Cartão de Cidadão
-        /// </summary>
+        /// </summary>s
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório!")]
         [StringLength(13)]
         [Display(Name = "Cartão Cidadão")]
@@ -75,10 +74,15 @@ namespace CliMed.Models
         /// </summary>
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório!")]
         [StringLength(9)]
-        [Display(Name = "Nº Identificação Fiscal")]
+        [Display(Name = "Número de Identificação Fiscal")]
         [RegularExpression("[0-9]{9}", ErrorMessage = "O {0} deve ter 9 dígitos.")]
         public string NIF { get; set; }
 
+
+        /// <summary>
+        /// Fotografia Correspondente ao Funcionário da Clinica
+        /// </summary>
+        public String Foto { get; set; }
 
         [Display(Name = "Clinica Pertencente")]
         //Chaves Estrangeiras

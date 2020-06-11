@@ -7,22 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CliMed.Data;
 using CliMed.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace CliMed.Controllers
 {
     public class FuncionariosController : Controller
     {
-        private readonly CliMedBD _context;
+        private readonly CliMedBD db;
 
-        public FuncionariosController(CliMedBD context)
+        private readonly IWebHostEnvironment _caminho;
+
+        public FuncionariosController(CliMedBD context, IWebHostEnvironment caminho)
         {
-            _context = context;
+            this.db = context;
+            this._caminho = caminho;
         }
 
         // GET: Funcionarios
         public async Task<IActionResult> Index()
         {
-            var cliMedBD = _context.Funcionarios.Include(f => f.Clinica);
+            var cliMedBD = db.Funcionarios.Include(f => f.Clinica);
             return View(await cliMedBD.ToListAsync());
         }
 
@@ -34,7 +40,7 @@ namespace CliMed.Controllers
                 return NotFound();
             }
 
-            var funcionarios = await _context.Funcionarios
+            var funcionarios = await db.Funcionarios
                 .Include(f => f.Clinica)
                 .FirstOrDefaultAsync(m => m.IdFuncionario == id);
             if (funcionarios == null)
@@ -48,7 +54,7 @@ namespace CliMed.Controllers
         // GET: Funcionarios/Create
         public IActionResult Create()
         {
-            ViewData["ClinicaFK"] = new SelectList(_context.Clinicas, "IdClinica", "CodPostal");
+            ViewData["ClinicaFK"] = new SelectList(db.Clinicas, "IdClinica", "Nome");
             return View();
         }
 
@@ -57,15 +63,77 @@ namespace CliMed.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdFuncionario,Nome,DataNasc,Contacto,Mail,Morada,CC,NIF,ClinicaFK")] Funcionarios funcionarios)
+        public async Task<IActionResult> Create([Bind("IdFuncionario,Nome,DataNasc,Contacto,Mail,Morada,CC,NIF,Foto,ClinicaFK")] Funcionarios funcionarios,IFormFile fotoFuncionario)
         {
-            if (ModelState.IsValid)
+            /*Variáveis de Controlo de Ficheiro*/
+            bool existeFicheiro = false;
+            string caminhoCompleto = "";
+            
+            /*Verificação da Existência ou não de Foto*/
+            if (fotoFuncionario != null)
             {
-                _context.Add(funcionarios);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                /*Verificação do tipo(extensão) da foto*/
+                if (fotoFuncionario.ContentType == "image/jpeg" || fotoFuncionario.ContentType == "image/png")
+                {
+                    //Gerar um Nome para o Ficheiro
+                    Guid g;
+                    g = Guid.NewGuid();
+
+                    string extension = Path.GetExtension(fotoFuncionario.FileName).ToLower();
+                    string nomeFicheiro = g.ToString() + extension;
+
+                    //Guardar o Ficheiro
+                    caminhoCompleto = Path.Combine(_caminho.WebRootPath, "imagens\\funcionarios", nomeFicheiro);
+
+
+                    //Atribuiçao do nome do Ficheiro a Clinica
+                    funcionarios.Foto = nomeFicheiro;
+
+                    //Flag a indicar que a foto existe
+                    existeFicheiro = true;
+                }
+                else
+                {
+
+                    //Caso não a foto não seja legivel , atribuir uma foto por defeito?
+                }
+
             }
-            ViewData["ClinicaFK"] = new SelectList(_context.Clinicas, "IdClinica", "CodPostal", funcionarios.ClinicaFK);
+
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+                    //Adiciona uma Clinica a BD , mas na memória do ASP .NET
+
+                    db.Add(funcionarios);
+
+                    //"Commit" no Servidor de BD
+                    await db.SaveChangesAsync();
+
+
+                    //Existe Foto para Gravar?
+                    if (existeFicheiro)
+                    {
+                        //Criação de um FileStream , contendo o caminho completo da foto Da Clinica
+                        using var stream = new FileStream(caminhoCompleto, FileMode.Create);
+
+                        //"Commit"/Upload da foto
+                        await fotoFuncionario.CopyToAsync(stream);
+                    }
+
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewData["ClinicaFK"] = new SelectList(db.Clinicas, "IdClinica", "Nome", funcionarios.ClinicaFK);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
             return View(funcionarios);
         }
 
@@ -77,12 +145,12 @@ namespace CliMed.Controllers
                 return NotFound();
             }
 
-            var funcionarios = await _context.Funcionarios.FindAsync(id);
+            var funcionarios = await db.Funcionarios.FindAsync(id);
             if (funcionarios == null)
             {
                 return NotFound();
             }
-            ViewData["ClinicaFK"] = new SelectList(_context.Clinicas, "IdClinica", "CodPostal", funcionarios.ClinicaFK);
+            ViewData["ClinicaFK"] = new SelectList(db.Clinicas, "IdClinica", "Nome", funcionarios.ClinicaFK);
             return View(funcionarios);
         }
 
@@ -91,19 +159,66 @@ namespace CliMed.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdFuncionario,Nome,DataNasc,Contacto,Mail,Morada,CC,NIF,ClinicaFK")] Funcionarios funcionarios)
+        public async Task<IActionResult> Edit(int id, [Bind("IdFuncionario,Nome,DataNasc,Contacto,Mail,Morada,CC,NIF,Foto,ClinicaFK")] Funcionarios funcionarios,IFormFile fotoFuncionario)
         {
+
+            /*Variável do Caminho do Ficheiro*/
+            string caminhoCompleto = "";
+            bool existeFotoEditar = false;
+
             if (id != funcionarios.IdFuncionario)
             {
                 return NotFound();
             }
 
+            /*Verificação da Existência da Foto*/
+            if (fotoFuncionario != null)
+            {
+                /*Verificação do tipo(extensão) da foto*/
+                if (fotoFuncionario.ContentType == "image/jpeg" || fotoFuncionario.ContentType == "image/png")
+                {
+                    //Gerar um Nome para o Ficheiro
+                    Guid g;
+                    g = Guid.NewGuid();
+
+                    string extension = Path.GetExtension(fotoFuncionario.FileName).ToLower();
+                    string nomeFicheiro = g.ToString() + extension;
+
+                    //Guardar o Ficheiro
+                    caminhoCompleto = Path.Combine(_caminho.WebRootPath, "imagens\\funcionarios", nomeFicheiro);
+
+
+                    //Atribuiçao do nome do Ficheiro ao Funcionáio
+                    funcionarios.Foto = nomeFicheiro;
+
+                    //Flag que indica que existe foto para ser editada
+                    existeFotoEditar = true;
+
+                }
+                else
+                {
+
+                }
+
+            }
+
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(funcionarios);
-                    await _context.SaveChangesAsync();
+                    db.Update(funcionarios);
+                    await db.SaveChangesAsync();
+                    //Existe Foto para Editar?
+                    if (existeFotoEditar)
+                    {
+                        //Criação de um FileStream , contendo o caminho completo da foto Da Clinica
+                        using var stream = new FileStream(caminhoCompleto, FileMode.Create);
+
+                        //"Commit"/Upload da foto
+                        await fotoFuncionario.CopyToAsync(stream);
+                    }
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -118,7 +233,7 @@ namespace CliMed.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClinicaFK"] = new SelectList(_context.Clinicas, "IdClinica", "CodPostal", funcionarios.ClinicaFK);
+            ViewData["ClinicaFK"] = new SelectList(db.Clinicas, "IdClinica", "Nome", funcionarios.ClinicaFK);
             return View(funcionarios);
         }
 
@@ -130,7 +245,7 @@ namespace CliMed.Controllers
                 return NotFound();
             }
 
-            var funcionarios = await _context.Funcionarios
+            var funcionarios = await db.Funcionarios
                 .Include(f => f.Clinica)
                 .FirstOrDefaultAsync(m => m.IdFuncionario == id);
             if (funcionarios == null)
@@ -146,15 +261,15 @@ namespace CliMed.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var funcionarios = await _context.Funcionarios.FindAsync(id);
-            _context.Funcionarios.Remove(funcionarios);
-            await _context.SaveChangesAsync();
+            var funcionarios = await db.Funcionarios.FindAsync(id);
+            db.Funcionarios.Remove(funcionarios);
+            await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FuncionariosExists(int id)
         {
-            return _context.Funcionarios.Any(e => e.IdFuncionario == id);
+            return db.Funcionarios.Any(e => e.IdFuncionario == id);
         }
     }
 }

@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\imagens\clinicas\" />
+    <Folder Include="wwwroot\imagens\funcionarios\" />
   </ItemGroup>
 
 
