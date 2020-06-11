@@ -21,8 +21,9 @@ namespace CliMed.Models
         [Required(ErrorMessage = "A {0} é de preenchimento obrigatório!")]
         [StringLength(30)]
         [Display(Name = "Designação")]
-        [RegularExpression("[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]{3,18}",
-            ErrorMessage = "A Designação deve começar por letra Maiúscula")]
+        [RegularExpression("[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]+(( | e | de | d[ao](s)? |-|'| d')[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]+){1,3}",
+            ErrorMessage = "Só são aceites nomes, começados por letra Maiúscula, separados entre si por um espaço em branco.")]
+
         public string Designacao { get; set; }
 
 
@@ -30,8 +31,8 @@ namespace CliMed.Models
         /// Indentificação do Tipo de Material - Consumivel...
         /// </summary>
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório!")]
-        [RegularExpression("[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]{3,18}",
-            ErrorMessage = "O Tipo do Produto deve começar por letra Maiúscula")]
+        [RegularExpression("[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]+(( | e | de | d[ao](s)? |-|'| d')[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]+){1,3}",
+            ErrorMessage = "Só são aceites nomes, começados por letra Maiúscula, separados entre si por um espaço em branco.")]
         public string Tipo { get; set; }
 
 
@@ -40,6 +41,8 @@ namespace CliMed.Models
         /// Foto do Produto
         /// </summary>
         public String Foto { get; set; }
+
+
         /// <summary>
         /// Chaves Estrangeiras Materias -> Clinica
         /// </summary>

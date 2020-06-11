@@ -4,10 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Produto</h1>
 
 <p>
-    <a asp-action="Create">Criar um novo Produto</a>
+    <a asp-action="Create">Adicionar um novo Produto</a>
 </p>
 <table class="table">
     <thead>
@@ -37,7 +37,9 @@
                 @Html.DisplayFor(modelItem => item.Tipo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Foto)
+                <a asp-action="Details" asp-route-id="@item.Foto">
+                    <img src="~/imagens/produtos/@item.Foto" width="115" alt="Foto Não Disponivel" title="@item.Designacao" />
+                </a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Clinica.CodPostal)

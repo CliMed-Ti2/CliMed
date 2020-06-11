@@ -15,6 +15,7 @@ namespace CliMed.Models
         {
 
         }
+
         /// <summary>
         /// Id da Clinica
         /// </summary>
@@ -39,6 +40,8 @@ namespace CliMed.Models
         [RegularExpression("[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]+(( | e | de | d[ao](s)? |-|'| d')[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]+){1,3}",
             ErrorMessage = "Só são aceites nomes, começados por letra Maiúscula, separados entre si por um espaço em branco.")]
         public String Rua { get; set; }
+
+
         /// <summary>
         /// Identificação do Numero da Porta da Clinicas
         /// </summary>
@@ -46,6 +49,7 @@ namespace CliMed.Models
         [Display(Name = "Número da Porta")]
         [RegularExpression("^[1-9]+[0-9]*$", ErrorMessage = "O campo deve ser preenchido com um numero inteiro positivo")]
         public int nPorta { get; set; }
+
         /// <summary>
         /// Numero de Andar da Clinica (Opcional ou não ) -> Restrição Exemplo "5D"s
         /// </summary>ss
@@ -53,6 +57,7 @@ namespace CliMed.Models
         [StringLength(3)]
         [RegularExpression("^[1-9]{1,2}[A-Z]{1}", ErrorMessage = "Exemplo de formato de preenchimento: 3D")]
         public String nAndar { get; set; }
+
         /// <summary>
         /// Codigo Postal da Clinica
         /// </summary>
@@ -61,6 +66,7 @@ namespace CliMed.Models
         [StringLength(8)]
         [Display(Name = "Código Postal")]
         public String CodPostal { get; set; }
+
         /// <summary>
         /// Localidade onde a clinica reside
         /// </summary>
@@ -69,6 +75,7 @@ namespace CliMed.Models
         [RegularExpression("[A-ZÁÉÍÓÚÂ][a-záéíóúàèìòùäëïöüãõâêîôûçñ]{3,18}",
             ErrorMessage = "Só são aceites nomes, começados por letra Maiúscula, separados entre si por um espaço em branco.")]
         public String Localidade { get; set; }
+
         /// <summary>
         /// Numero de Indentificação Fiscal da Clinca
         /// </summary>
@@ -77,12 +84,14 @@ namespace CliMed.Models
         [StringLength(9)]
         [RegularExpression("[1-9][0-9]{8}", ErrorMessage = "Deverá introduzir o NIF corretamente, contendo 9 numeros")]
         public string NIF { get; set; }
+
         /// <summary>
         /// Contacto da Clinica
         /// </summary>
         [StringLength(9)]
         [RegularExpression("9[0-9]{8}", ErrorMessage = "O {0} deve ter 9 dígitos e começar por 9 ")]
         public String Contacto { get; set; }
+
         /// <summary>
         /// Email correspondente a Clinica
         /// </summary>
@@ -90,6 +99,7 @@ namespace CliMed.Models
         [Display(Name = "E-Mail")]
         [DataType(DataType.EmailAddress, ErrorMessage = "E-mail is not valid")]
         public string EMail { get; set; }
+
         /// <summary>
         /// Foto da Clinica
         /// </summary>

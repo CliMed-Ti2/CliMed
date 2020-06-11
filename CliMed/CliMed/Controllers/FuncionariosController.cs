@@ -105,7 +105,7 @@ namespace CliMed.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    //Adiciona uma Clinica a BD , mas na memória do ASP .NET
+                    //Adiciona uma Funcionário a BD , mas na memória do ASP .NET
 
                     db.Add(funcionarios);
 
@@ -212,7 +212,7 @@ namespace CliMed.Controllers
                     //Existe Foto para Editar?
                     if (existeFotoEditar)
                     {
-                        //Criação de um FileStream , contendo o caminho completo da foto Da Clinica
+                        //Criação de um FileStream , contendo o caminho completo da foto do Funcionario
                         using var stream = new FileStream(caminhoCompleto, FileMode.Create);
 
                         //"Commit"/Upload da foto
