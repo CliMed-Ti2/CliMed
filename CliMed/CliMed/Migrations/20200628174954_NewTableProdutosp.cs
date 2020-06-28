@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CliMed.Migrations
 {
-    public partial class i : Migration
+    public partial class NewTableProdutosp : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,6 +13,7 @@ namespace CliMed.Migrations
                 {
                     IdClinica = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(maxLength: 25, nullable: false),
                     Rua = table.Column<string>(maxLength: 60, nullable: false),
                     nPorta = table.Column<int>(nullable: false),
                     nAndar = table.Column<string>(maxLength: 3, nullable: true),
@@ -29,6 +30,21 @@ namespace CliMed.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Produtos",
+                columns: table => new
+                {
+                    IDProduto = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Designacao = table.Column<string>(maxLength: 30, nullable: false),
+                    Tipo = table.Column<string>(nullable: false),
+                    Foto = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Produtos", x => x.IDProduto);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Funcionarios",
                 columns: table => new
                 {
@@ -41,6 +57,7 @@ namespace CliMed.Migrations
                     Morada = table.Column<string>(maxLength: 60, nullable: false),
                     CC = table.Column<string>(maxLength: 13, nullable: false),
                     NIF = table.Column<string>(maxLength: 9, nullable: false),
+                    Foto = table.Column<string>(nullable: true),
                     ClinicaFK = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -48,28 +65,6 @@ namespace CliMed.Migrations
                     table.PrimaryKey("PK_Funcionarios", x => x.IdFuncionario);
                     table.ForeignKey(
                         name: "FK_Funcionarios_Clinicas_ClinicaFK",
-                        column: x => x.ClinicaFK,
-                        principalTable: "Clinicas",
-                        principalColumn: "IdClinica",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Produtos",
-                columns: table => new
-                {
-                    IDProduto = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Designacao = table.Column<string>(maxLength: 30, nullable: false),
-                    Tipo = table.Column<string>(nullable: false),
-                    Foto = table.Column<string>(nullable: true),
-                    ClinicaFK = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Produtos", x => x.IDProduto);
-                    table.ForeignKey(
-                        name: "FK_Produtos_Clinicas_ClinicaFK",
                         column: x => x.ClinicaFK,
                         principalTable: "Clinicas",
                         principalColumn: "IdClinica",
@@ -118,11 +113,6 @@ namespace CliMed.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Funcionarios_ClinicaFK",
                 table: "Funcionarios",
-                column: "ClinicaFK");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Produtos_ClinicaFK",
-                table: "Produtos",
                 column: "ClinicaFK");
         }
 

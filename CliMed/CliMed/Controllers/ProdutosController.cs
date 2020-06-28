@@ -28,8 +28,7 @@ namespace CliMed.Controllers
         // GET: Produtos
         public async Task<IActionResult> Index()
         {
-            var cliMedBD = db.Produtos.Include(p => p.Clinica);
-            return View(await cliMedBD.ToListAsync());
+            return View(await db.Produtos.ToListAsync());
         }
 
         // GET: Produtos/Details/5
@@ -41,7 +40,6 @@ namespace CliMed.Controllers
             }
 
             var produtos = await db.Produtos
-                .Include(p => p.Clinica)
                 .FirstOrDefaultAsync(m => m.IDProduto == id);
             if (produtos == null)
             {
@@ -118,7 +116,6 @@ namespace CliMed.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClinicaFK"] = new SelectList(db.Clinicas, "IdClinica", "Nome", produtos.ClinicaFK);
             return View(produtos);
         }
 
@@ -135,7 +132,6 @@ namespace CliMed.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClinicaFK"] = new SelectList(db.Clinicas, "IdClinica", "Nome", produtos.ClinicaFK);
             return View(produtos);
         }
 
@@ -218,7 +214,6 @@ namespace CliMed.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClinicaFK"] = new SelectList(db.Clinicas, "IdClinica", "Nome", produtos.ClinicaFK);
             return View(produtos);
         }
 
@@ -231,7 +226,6 @@ namespace CliMed.Controllers
             }
 
             var produtos = await db.Produtos
-                .Include(p => p.Clinica)
                 .FirstOrDefaultAsync(m => m.IDProduto == id);
             if (produtos == null)
             {

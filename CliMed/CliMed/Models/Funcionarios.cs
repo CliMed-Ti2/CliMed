@@ -31,6 +31,7 @@ namespace CliMed.Models
         [Display(Name = "Data de Nascimento")]
         public DateTime DataNasc { get; set; }
 
+
         /// <summary>
         /// Contacto do Funcionário 
         /// </summary>

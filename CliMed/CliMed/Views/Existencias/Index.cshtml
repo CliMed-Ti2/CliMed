@@ -4,37 +4,38 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Existência</h1>
 
 <p>
-    <a asp-action="Create">Criar um Novo</a>
+    <a asp-action="Create">Adicionar uma nova Existência</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
+                @ViewBag.ClinicaFK
+                @Html.DisplayNameFor(model => model.Clinica.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Produto.Designacao)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Quantidade)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClinicaFK)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProdutoFK)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
+                @ViewBag.ClinicaFK
+                @Html.DisplayFor(modelItem => item.Clinica.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Produto.Designacao)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Quantidade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClinicaFK)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProdutoFK)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdExistencia">Editar</a> |

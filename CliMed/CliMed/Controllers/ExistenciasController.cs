@@ -7,22 +7,44 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CliMed.Data;
 using CliMed.Models;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace CliMed.Controllers
 {
     public class ExistenciasController : Controller
     {
-        private readonly CliMedBD _context;
+        private readonly CliMedBD db;
+
 
         public ExistenciasController(CliMedBD context)
         {
-            _context = context;
+            this.db = context;
         }
+
 
         // GET: Existencias
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Existencias.ToListAsync());
+            var existencias = db.Existencias;
+
+            /*Select Nome da Clinica(Nome) From Clinica Where id = FKIdClinica*/
+            /*var clinica = await db.Clinicas
+                            .Include(v => v.Nome)
+                            .Where(v => v.IdClinica == existencias.
+                            .FirstOrDefaultAsync();    */   
+            
+
+            // var teste = await db.Existencias.Include(x => x.Clinica).ThenInclude(p => p.Nome).ToListAsync();
+            //var x = await db.Clinicas.Include(a => a.existencias).ThenInclude(p => p.Produto).ToListAsync();
+
+            //var t = await db.Existencias.Include(c => c.Clinica).ThenInclude(p => p.Produtos).ToListAsync();
+
+
+            //var i = await db.Produtos.Include(c => c.Clinica).ToListAsync();
+
+            return View(await db.Existencias.Include("Clinica").Include("Produto").ToListAsync());
+
+
         }
 
         // GET: Existencias/Details/5
@@ -33,7 +55,7 @@ namespace CliMed.Controllers
                 return NotFound();
             }
 
-            var existencias = await _context.Existencias
+            var existencias = await db.Existencias
                 .FirstOrDefaultAsync(m => m.IdExistencia == id);
             if (existencias == null)
             {
@@ -46,6 +68,9 @@ namespace CliMed.Controllers
         // GET: Existencias/Create
         public IActionResult Create()
         {
+            ViewData["ClinicaFK"] = new SelectList(db.Clinicas, "IdClinica", "Nome");
+            ViewData["ProdutoFK"] = new SelectList(db.Produtos, "IDProduto", "Designacao"); 
+
             return View();
         }
 
@@ -58,8 +83,8 @@ namespace CliMed.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(existencias);
-                await _context.SaveChangesAsync();
+                db.Add(existencias);
+                await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(existencias);
@@ -73,7 +98,7 @@ namespace CliMed.Controllers
                 return NotFound();
             }
 
-            var existencias = await _context.Existencias.FindAsync(id);
+            var existencias = await db.Existencias.FindAsync(id);
             if (existencias == null)
             {
                 return NotFound();
@@ -97,8 +122,8 @@ namespace CliMed.Controllers
             {
                 try
                 {
-                    _context.Update(existencias);
-                    await _context.SaveChangesAsync();
+                    db.Update(existencias);
+                    await db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,7 +149,7 @@ namespace CliMed.Controllers
                 return NotFound();
             }
 
-            var existencias = await _context.Existencias
+            var existencias = await db.Existencias
                 .FirstOrDefaultAsync(m => m.IdExistencia == id);
             if (existencias == null)
             {
@@ -139,15 +164,15 @@ namespace CliMed.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var existencias = await _context.Existencias.FindAsync(id);
-            _context.Existencias.Remove(existencias);
-            await _context.SaveChangesAsync();
+            var existencias = await db.Existencias.FindAsync(id);
+            db.Existencias.Remove(existencias);
+            await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ExistenciasExists(int id)
         {
-            return _context.Existencias.Any(e => e.IdExistencia == id);
+            return db.Existencias.Any(e => e.IdExistencia == id);
         }
     }
 }

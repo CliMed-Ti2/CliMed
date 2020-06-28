@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 namespace CliMed.Models
@@ -104,5 +105,14 @@ namespace CliMed.Models
         /// Foto da Clinica
         /// </summary>
         public String Foto { get; set; }
+
+
+
+
+        /// <summary>
+        /// Lista de Existencias da Clinica
+        /// </summary>
+
+        public virtual ICollection<Existencias> ListaClinicaExistencias { get; set; }
     }
 }

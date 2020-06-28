@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CliMed.Migrations
 {
     [DbContext(typeof(CliMedBD))]
-    [Migration("20200610151936_NovoCampo")]
-    partial class NovoCampo
+    [Migration("20200628174954_NewTableProdutosp")]
+    partial class NewTableProdutosp
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -129,6 +129,9 @@ namespace CliMed.Migrations
                     b.Property<DateTime>("DataNasc")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Foto")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Mail")
                         .IsRequired()
                         .HasColumnType("nvarchar(30)")
@@ -163,9 +166,6 @@ namespace CliMed.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClinicaFK")
-                        .HasColumnType("int");
-
                     b.Property<string>("Designacao")
                         .IsRequired()
                         .HasColumnType("nvarchar(30)")
@@ -180,15 +180,13 @@ namespace CliMed.Migrations
 
                     b.HasKey("IDProduto");
 
-                    b.HasIndex("ClinicaFK");
-
                     b.ToTable("Produtos");
                 });
 
             modelBuilder.Entity("CliMed.Models.Existencias", b =>
                 {
                     b.HasOne("CliMed.Models.Clinicas", "Clinica")
-                        .WithMany()
+                        .WithMany("ListaClinicaExistencias")
                         .HasForeignKey("ClinicaIdClinica");
 
                     b.HasOne("CliMed.Models.Produtos", "Produto")
@@ -197,15 +195,6 @@ namespace CliMed.Migrations
                 });
 
             modelBuilder.Entity("CliMed.Models.Funcionarios", b =>
-                {
-                    b.HasOne("CliMed.Models.Clinicas", "Clinica")
-                        .WithMany()
-                        .HasForeignKey("ClinicaFK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CliMed.Models.Produtos", b =>
                 {
                     b.HasOne("CliMed.Models.Clinicas", "Clinica")
                         .WithMany()

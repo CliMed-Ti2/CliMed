@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+
 namespace CliMed.Models
 {
     public class Produtos
@@ -42,13 +43,5 @@ namespace CliMed.Models
         /// </summary>
         public String Foto { get; set; }
 
-
-        /// <summary>
-        /// Chaves Estrangeiras Materias -> Clinica
-        /// </summary>
-        [Display(Name = "Clinica Pertencente")]
-        [ForeignKey(nameof(Clinica))]
-        public int ClinicaFK { get; set; }
-        public Clinicas Clinica { get; set; }
     }
 }

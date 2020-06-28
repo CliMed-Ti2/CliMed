@@ -21,10 +21,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Foto)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Clinica)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -40,9 +36,6 @@
                 <a asp-action="Details" asp-route-id="@item.Foto">
                     <img src="~/imagens/produtos/@item.Foto" width="115" alt="Foto Não Disponivel" title="@item.Designacao" />
                 </a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Clinica.CodPostal)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IDProduto">Editar</a> |
