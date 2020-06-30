@@ -45,13 +45,13 @@ namespace CliMed.Data
                 {
                     IdClinica = 2,
                     Nome = "Clinica Saude Consigo",
-                    Rua = "Rua Antonio Miguel",
-                    nPorta = 45,
-                    nAndar = "1E",
-                    CodPostal = "2252-965",
-                    Localidade = "Oeiras",
+                    Rua = "Rua Tomás Antunes",
+                    nPorta = 3,
+                    nAndar = "1D",
+                    CodPostal = "2622-965",
+                    Localidade = "Estoril",
                     NIF = "256989236",
-                    Contacto = "915 968 212",
+                    Contacto = "915968212",
                     EMail = "saudeConsigo@climed.com",
                     Foto = "saudeConsigo.jpeg"
                 }
