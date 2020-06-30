@@ -16,12 +16,12 @@
 
             <div class="form-group">
                 <label asp-for="ClinicaFK" class="control-label"></label>
-                <input asp-for="ClinicaFK" class="form-control" />
+                <select asp-for="ClinicaFK" class="form-control" asp-items="ViewBag.ClinicaFK"></select>
                 <span asp-validation-for="ClinicaFK" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ProdutoFK" class="control-label"></label>
-                <input asp-for="ProdutoFK" class="form-control" />
+                <select asp-for="ClinicaFK" class="form-control" asp-items="ViewBag.ClinicaFK"></select>
                 <span asp-validation-for="ProdutoFK" class="text-danger"></span>
             </div>
             <div class="form-group">

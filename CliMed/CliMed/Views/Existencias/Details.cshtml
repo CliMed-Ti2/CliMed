@@ -14,13 +14,13 @@
             @Html.DisplayNameFor(model => model.ClinicaFK)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ClinicaFK)
+            @Html.DisplayFor(model => model.Clinica.Nome)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ProdutoFK)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProdutoFK)
+            @Html.DisplayFor(model => model.Produto.Designacao)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Quantidade)
@@ -32,5 +32,5 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.IdExistencia">Editar</a> |
-    <a asp-action="Index">Voltar a Lista Principal</a>
+    <a asp-action="Index">Voltar a Listagem Inicial</a>
 </div>

@@ -25,28 +25,9 @@ namespace CliMed.Controllers
         // GET: Existencias
         public async Task<IActionResult> Index()
         {
-            //var existencias = db.Existencias;
-
-            /*Select Nome da Clinica(Nome) From Clinica Where id = FKIdClinica*/
-            /*var clinica = await db.Clinicas
-                            .Include(v => v.Nome)
-                            .Where(v => v.IdClinica == existencias.
-                            .FirstOrDefaultAsync();    */
-
-
-            // var teste = await db.Existencias.Include(x => x.Clinica).ThenInclude(p => p.Nome).ToListAsync();
-            //var x = await db.Clinicas.Include(a => a.existencias).ThenInclude(p => p.Produto).ToListAsync();
-
-            //var t = await db.Existencias.Include(c => c.Clinica).ThenInclude(p => p.Produtos).ToListAsync();
-
-
-            //var i = await db.Produtos.Include(c => c.Clinica).ToListAsync();
-
             var exitenciasBD = db.Existencias.Include(c => c.Clinica).Include(p => p.Produto);
 
             return View(await exitenciasBD.ToListAsync());
-
-
         }
 
         // GET: Existencias/Details/5
@@ -105,6 +86,8 @@ namespace CliMed.Controllers
             {
                 return NotFound();
             }
+            ViewData["ClinicaFK"] = new SelectList(db.Clinicas, "IdClinica", "Nome", existencias.ClinicaFK);
+            ViewData["ProdutoFK"] = new SelectList(db.Produtos, "IDProduto", "Designacao", existencias.ProdutoFK);
             return View(existencias);
         }
 
@@ -140,19 +123,26 @@ namespace CliMed.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ClinicaFK"] = new SelectList(db.Clinicas, "IdClinica", "Nome",existencias.ClinicaFK);
+            ViewData["ProdutoFK"] = new SelectList(db.Produtos, "IDProduto", "Designacao", existencias.ProdutoFK);
+
             return View(existencias);
         }
 
         // GET: Existencias/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+
+
             if (id == null)
             {
                 return NotFound();
             }
 
             var existencias = await db.Existencias
-                .FirstOrDefaultAsync(m => m.IdExistencia == id);
+                 .Include(c => c.Clinica)
+                 .Include(p => p.Produto)
+                 .FirstOrDefaultAsync(m => m.IdExistencia == id);
             if (existencias == null)
             {
                 return NotFound();

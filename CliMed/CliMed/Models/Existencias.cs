@@ -30,7 +30,7 @@ namespace CliMed.Models
         /// Chave Estrangeira Existencias -> Clinica
         /// </summary>
         [Display(Name = "Clinicas")]
-        [ForeignKey(nameof(Clinicas))]
+        [ForeignKey(nameof(Clinica))]
         public int ClinicaFK { get; set; }
         public Clinicas Clinica { get; set; }
 
@@ -40,7 +40,7 @@ namespace CliMed.Models
         /// Chave Estrangeira Existencias -> Produto
         /// </summary>
         [Display(Name = "Produto")]
-        [ForeignKey(nameof(Produtos))]
+        [ForeignKey(nameof(Produto))]
         public int ProdutoFK { get; set; }
         public Produtos Produto { get; set; }
     }

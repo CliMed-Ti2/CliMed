@@ -4,25 +4,23 @@
     ViewData["Title"] = "Apagar";
 }
 
-<h1>Apagar</h1>
+<h1>Apagar Existência</h1>
 
-<h3>Tem a certeza que quer apagar?</h3>
+<h3>Tem a certeza que quer eliminar este registo?</h3>
 <div>
-    <h4>Existências</h4>
     <hr />
     <dl class="row">
-
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ClinicaFK)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ClinicaFK)
+            @Html.DisplayFor(model => model.Clinica.Nome)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ProdutoFK)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProdutoFK)
+            @Html.DisplayFor(model => model.Produto.Designacao)
         </dd>
 
         <dt class="col-sm-2">
@@ -36,6 +34,6 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="IdExistencia" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Voltar a Lista Principal</a>
+        <a asp-action="Index">Voltar a Listagem Inicial</a>
     </form>
 </div>
