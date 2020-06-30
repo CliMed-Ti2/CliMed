@@ -1,4 +1,5 @@
 ﻿using CliMed.Models;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -58,17 +59,34 @@ namespace CliMed.Data
                 );
             ;
 
-
-
-
-
-            /*modelBuilder.Entity<Funcionarios>().HasData(
+                modelBuilder.Entity<Funcionarios>().HasData(
                  new Funcionarios
                  {
-
-
+                     IdFuncionario = 1,
+                     Nome = "Jose Alberto Tevez",
+                     DataNasc = DateTime.Parse("20/1/1980 12:15:12 PM"),
+                     Contacto = "965123325",
+                     Mail = "joseTevez@climed.com",
+                     Morada = "Avenida Vasco da Gama",
+                     CC = "125365698",
+                     NIF = "198563256",
+                     Foto = "joseTevez.jpeg",
+                     ClinicaFK = 1,
+                 },
+                 new Funcionarios
+                 {
+                      IdFuncionario = 2,
+                      Nome = "Maria Oliveira Sofia",
+                      DataNasc = DateTime.Parse("05/11/1980 10:10:07 PM"),
+                      Contacto = "965123325",
+                      Mail = "mariaSofia@climed.com",
+                      Morada = "Avenida Almirante Reis",
+                      CC = "186123402",
+                      NIF = "201562152",
+                      Foto = "mariaSofia.jpeg",
+                      ClinicaFK = 2,
                  }
-                );*/
+                );
 
 
 
