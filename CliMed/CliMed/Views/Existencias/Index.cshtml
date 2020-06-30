@@ -13,7 +13,6 @@
     <thead>
         <tr>
             <th>
-                @ViewBag.ClinicaFK
                 @Html.DisplayNameFor(model => model.Clinica.Nome)
             </th>
             <th>
@@ -28,7 +27,6 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @ViewBag.ClinicaFK
                 @Html.DisplayFor(modelItem => item.Clinica.Nome)
             </td>
             <td>

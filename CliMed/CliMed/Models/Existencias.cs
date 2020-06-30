@@ -37,7 +37,7 @@ namespace CliMed.Models
 
 
         /// <summary>
-        /// Chave Estrangeira Existencias -> Clinica
+        /// Chave Estrangeira Existencias -> Produto
         /// </summary>
         [Display(Name = "Produto")]
         [ForeignKey(nameof(Produtos))]

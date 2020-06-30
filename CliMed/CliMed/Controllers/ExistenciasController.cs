@@ -25,14 +25,14 @@ namespace CliMed.Controllers
         // GET: Existencias
         public async Task<IActionResult> Index()
         {
-            var existencias = db.Existencias;
+            //var existencias = db.Existencias;
 
             /*Select Nome da Clinica(Nome) From Clinica Where id = FKIdClinica*/
             /*var clinica = await db.Clinicas
                             .Include(v => v.Nome)
                             .Where(v => v.IdClinica == existencias.
-                            .FirstOrDefaultAsync();    */   
-            
+                            .FirstOrDefaultAsync();    */
+
 
             // var teste = await db.Existencias.Include(x => x.Clinica).ThenInclude(p => p.Nome).ToListAsync();
             //var x = await db.Clinicas.Include(a => a.existencias).ThenInclude(p => p.Produto).ToListAsync();
@@ -42,7 +42,9 @@ namespace CliMed.Controllers
 
             //var i = await db.Produtos.Include(c => c.Clinica).ToListAsync();
 
-            return View(await db.Existencias.Include("Clinica").Include("Produto").ToListAsync());
+            var exitenciasBD = db.Existencias.Include(c => c.Clinica).Include(p => p.Produto);
+
+            return View(await exitenciasBD.ToListAsync());
 
 
         }
