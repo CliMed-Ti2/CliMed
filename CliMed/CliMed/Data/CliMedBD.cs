@@ -57,7 +57,7 @@ namespace CliMed.Data
                     Foto = "saudeConsigo.jpeg"
                 }
                 );
-            ;
+           
 
                 modelBuilder.Entity<Funcionarios>().HasData(
                  new Funcionarios
@@ -88,6 +88,38 @@ namespace CliMed.Data
                  }
                 );
 
+
+
+            modelBuilder.Entity<Produtos>().HasData(
+                new Produtos
+                {
+                    IDProduto = 1,
+                    Designacao = "Estetoscopio de Cabeca Dupla",
+                    Tipo = "Manual",
+                    Foto = "estetoscopio.jpeg",
+                },
+                new Produtos
+                {
+                    IDProduto = 2,
+                    Designacao = "Garrote",
+                    Tipo = "Manual",
+                    Foto = "garrote.jpeg",
+                },
+                new Produtos
+                {
+                   IDProduto = 3,
+                   Designacao = "Medidor de pressão",
+                   Tipo = "Digital",
+                   Foto = "medidorPressao.jpeg",
+                },
+                new Produtos
+                {
+                   IDProduto = 4,
+                   Designacao = "Oxímetro de pulso",
+                   Tipo = "Digital",
+                   Foto = "oximetroPulso.jpeg",
+                }
+               );
 
 
         }
