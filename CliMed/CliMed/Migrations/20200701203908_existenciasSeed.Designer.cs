@@ -4,14 +4,16 @@ using CliMed.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CliMed.Migrations
 {
     [DbContext(typeof(CliMedBD))]
-    partial class CliMedBDModelSnapshot : ModelSnapshot
+    [Migration("20200701203908_existenciasSeed")]
+    partial class existenciasSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,8 +161,8 @@ namespace CliMed.Migrations
                         new
                         {
                             IdExistencia = 5,
-                            ClinicaFK = 2,
-                            ProdutoFK = 1,
+                            ClinicaFK = 1,
+                            ProdutoFK = 2,
                             Quantidade = 5
                         },
                         new

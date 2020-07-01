@@ -122,6 +122,67 @@ namespace CliMed.Data
                );
 
 
+
+            modelBuilder.Entity<Existencias>().HasData(
+                  new Existencias
+                  {
+                    IdExistencia = 1,
+                    Quantidade = 7,
+                    ClinicaFK = 1,
+                    ProdutoFK = 1
+                  },
+                  new Existencias
+                  {
+                    IdExistencia = 2,
+                    Quantidade = 12,
+                    ClinicaFK = 1,
+                    ProdutoFK = 2
+                  },
+                  new Existencias
+                  {
+                    IdExistencia = 3,
+                    Quantidade = 5,
+                    ClinicaFK = 1,
+                    ProdutoFK = 3
+                  },
+                  new Existencias
+                  {
+                   IdExistencia = 4,
+                   Quantidade = 10,
+                   ClinicaFK = 1,
+                   ProdutoFK = 4
+                  },
+                  new Existencias
+                  {
+                   IdExistencia = 5,
+                   Quantidade = 5,
+                   ClinicaFK = 2,
+                   ProdutoFK = 1
+                  },
+                  new Existencias
+                  {
+                   IdExistencia = 6,
+                   Quantidade = 3,
+                   ClinicaFK = 2,
+                   ProdutoFK = 2
+                  },
+                  new Existencias
+                  {
+                   IdExistencia = 7,
+                   Quantidade = 2,
+                   ClinicaFK = 2,
+                   ProdutoFK = 3
+                  },
+                  new Existencias
+                  {
+                   IdExistencia = 8,
+                   Quantidade = 2,
+                   ClinicaFK = 2,
+                   ProdutoFK = 4
+                  }
+                 );
+
+
         }
         #endregion Dados de Teste 
 

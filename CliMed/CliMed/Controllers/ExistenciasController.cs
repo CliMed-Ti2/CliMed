@@ -39,6 +39,8 @@ namespace CliMed.Controllers
             }
 
             var existencias = await db.Existencias
+                .Include(c => c.Clinica)
+                .Include(p => p.Produto)
                 .FirstOrDefaultAsync(m => m.IdExistencia == id);
             if (existencias == null)
             {
