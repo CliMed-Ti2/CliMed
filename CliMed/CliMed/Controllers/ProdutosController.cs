@@ -18,7 +18,6 @@ namespace CliMed.Controllers
         private readonly CliMedBD db;
 
         private readonly IWebHostEnvironment _caminho;
-
         public ProdutosController(CliMedBD context, IWebHostEnvironment caminho)
         {
             this.db = context;

@@ -26,7 +26,6 @@ namespace CliMed.Data
             base.OnModelCreating(modelBuilder);
             //Insert DB seed
 
-
             modelBuilder.Entity<Clinicas>().HasData(
                 new Clinicas
                 {
