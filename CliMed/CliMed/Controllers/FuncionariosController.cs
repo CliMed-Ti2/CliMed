@@ -130,7 +130,6 @@ namespace CliMed.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
 

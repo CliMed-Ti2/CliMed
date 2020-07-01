@@ -15,7 +15,6 @@ namespace CliMed.Controllers
     {
         private readonly CliMedBD db;
 
-
         public ExistenciasController(CliMedBD context)
         {
             this.db = context;
