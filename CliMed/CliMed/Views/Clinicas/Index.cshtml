@@ -1,0 +1,91 @@
+﻿@model IEnumerable<CliMed.Models.Clinicas>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Clínicas</h1>
+
+<p>
+    <a asp-action="Create">Adicionar Nova Clinica</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rua)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nPorta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nAndar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CodPostal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Localidade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NIF)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contacto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EMail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Foto)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rua)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nPorta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nAndar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodPostal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Localidade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NIF)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contacto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EMail)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.IdClinica">
+                    <img src="~/imagens/clinicas/@item.Foto" width="125" alt="Foto Não Disponivel" title="@item.Nome" />
+                </a>
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdClinica">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IdClinica">Detalhes</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdClinica">Apagar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

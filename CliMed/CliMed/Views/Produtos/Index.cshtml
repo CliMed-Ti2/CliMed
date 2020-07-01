@@ -1,0 +1,48 @@
+﻿@model IEnumerable<CliMed.Models.Produtos>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Produto</h1>
+
+<p>
+    <a asp-action="Create">Adicionar um novo Produto</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Designacao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Foto)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Designacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Foto">
+                    <img src="~/imagens/produtos/@item.Foto" width="115" alt="Foto Não Disponivel" title="@item.Designacao" />
+                </a>
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IDProduto">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IDProduto">Detalhe</a> |
+                <a asp-action="Delete" asp-route-id="@item.IDProduto">Apagar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

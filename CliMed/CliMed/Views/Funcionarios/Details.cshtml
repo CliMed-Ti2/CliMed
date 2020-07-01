@@ -1,0 +1,75 @@
+﻿@model CliMed.Models.Funcionarios
+
+@{
+    ViewData["Title"] = "Detalhe";
+}
+    <h1>Detalhe Funcionário</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DataNasc)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DataNasc)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Contacto)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Contacto)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Mail)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Mail)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Morada)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Morada)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CC)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CC)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NIF)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NIF)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Clinica)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Clinica.Nome)
+        </dd>
+    </dl>
+    <div class="d-inline">
+        <dl class="row" displa>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Foto)
+            </dt>
+            <dd class="col-sm-4">
+                <img src="~/imagens/funcionarios/@Model.Foto" width="150" alt="Foto Não Disponivel" title="@Model.Nome">
+            </dd>
+        </dl>
+    </div>
+  
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdFuncionario">Editar</a> |
+    <a asp-action="Index">Voltar a Listagem Inicial</a>
+</div>

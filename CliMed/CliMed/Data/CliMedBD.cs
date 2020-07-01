@@ -1,4 +1,5 @@
 ﻿using CliMed.Models;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace CliMed.Data
         /// </summary>
         /// <param name="modelBuilder"></param>
         #region Dados de Teste 
-        /*protected override void OnModelCreating(ModelBuilder modelBuilder) 
+        protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
             base.OnModelCreating(modelBuilder);
             //Insert DB seed
@@ -29,161 +30,166 @@ namespace CliMed.Data
             modelBuilder.Entity<Clinicas>().HasData(
                 new Clinicas
                 {
-                    IdClinica = 3,
-                    Morada = "Rua Fernado Lopes Graça",
-                    Contacto = "241844711",
-                    Mail = "CliMedTerra@climed.com",
-                    Foto = ""
+                    IdClinica = 1 ,
+                    Nome = "Clinica Doutor Consulta",
+                    Rua = "Rua Antonio Miguel",
+                    nPorta = 45 ,
+                    nAndar = "1E",
+                    CodPostal = "2252-965",
+                    Localidade = "Oeiras",
+                    NIF = "245568236",
+                    Contacto = "964256245",
+                    EMail = "doutorConsulta@climed.com",
+                    Foto = "doutorConsulta.jpeg"
                 },
                 new Clinicas
                 {
-                    IdClinica = 4,
-                    Morada = "Rua Dona Maria",
-                    Contacto = "241844712",
-                    Mail = "CliMedTerra@climed.com",
-                    Foto = ""
+                    IdClinica = 2,
+                    Nome = "Clinica Saude Consigo",
+                    Rua = "Rua Tomás Antunes",
+                    nPorta = 3,
+                    nAndar = "1D",
+                    CodPostal = "2622-965",
+                    Localidade = "Estoril",
+                    NIF = "256989236",
+                    Contacto = "915968212",
+                    EMail = "saudeConsigo@climed.com",
+                    Foto = "saudeConsigo.jpeg"
                 }
                 );
+           
 
-            modelBuilder.Entity<Medicos>().HasData(
-                new Medicos
-                {
-                    idMedico = 3,
-                    nCedula = "1234 5678 9123 4567",
-                    Nome = "Pedro Zanitti",
-                    DataNasc = DateTime.Parse("6/1/1978 12:00 AM"),
-                    AnosExp = 25,
-                    Contacto = "932165738",
-                    Mail = "pedroZanitti@climed.com",
-                    Morada = "Rua Antonio Douro",
-                    CC = "116716529",
-                    NIF = "16997680"
-                },
-                new Medicos
-                {
-                    idMedico = 4,
-                    nCedula = "1234 5678 9123 4567",
-                    Nome = "Sofia Silva",
-                    DataNasc = DateTime.Parse("6/1/1990 12:00 AM"),
-                    AnosExp = 8,
-                    Contacto = "914166788",
-                    Mail = "sofiaSilva@climed.com",
-                    Morada = "Rua 16 de Maio",
-                    CC = "167136127",
-                    NIF = "18494681"
-                }
+                modelBuilder.Entity<Funcionarios>().HasData(
+                 new Funcionarios
+                 {
+                     IdFuncionario = 1,
+                     Nome = "Jose Alberto Tevez",
+                     DataNasc = DateTime.Parse("20/1/1980 12:15:12 PM"),
+                     Contacto = "965123325",
+                     Mail = "joseTevez@climed.com",
+                     Morada = "Avenida Vasco da Gama",
+                     CC = "125365698",
+                     NIF = "198563256",
+                     Foto = "joseTevez.jpeg",
+                     ClinicaFK = 1,
+                 },
+                 new Funcionarios
+                 {
+                      IdFuncionario = 2,
+                      Nome = "Maria Oliveira Sofia",
+                      DataNasc = DateTime.Parse("05/11/1980 10:10:07 PM"),
+                      Contacto = "965123325",
+                      Mail = "mariaSofia@climed.com",
+                      Morada = "Avenida Almirante Reis",
+                      CC = "186123402",
+                      NIF = "201562152",
+                      Foto = "mariaSofia.jpeg",
+                      ClinicaFK = 2,
+                 }
                 );
 
 
-            modelBuilder.Entity<Utentes>().HasData(
-                new Utentes
+
+            modelBuilder.Entity<Produtos>().HasData(
+                new Produtos
                 {
-                    IdUtente = 3,
-                    Nome = "Andreia Silva",
-                    DataNasc = DateTime.Parse("6/1/2008 12:00 AM"),
-                    Contacto = "96541821",
-                    Mail = "andreiaSilva@gmail.com",
-                    Morada = "Rua D.Sebastião",
-                    CC = "143786529",
-                    NIF = "18997680"
+                    IDProduto = 1,
+                    Designacao = "Estetoscopio de Cabeca Dupla",
+                    Tipo = "Manual",
+                    Foto = "estetoscopio.jpeg",
                 },
-                new Utentes
+                new Produtos
                 {
-                      IdUtente = 4,
-                      Nome = "Bruno Oliveira",
-                      DataNasc = DateTime.Parse("23/5/1998 12:00 AM"),
-                      Contacto = "936785162",
-                      Mail = "OliveriaBruno1@gmail.com",
-                      Morada = "Avenida Angola",
-                      CC = "123456789",
-                      NIF = "178767769"
-                });
-
-            modelBuilder.Entity<Funcionarios>().HasData(
-               new Funcionarios
-               {
-                   IdFuncionario = 3,
-                   Nome = "Alice Santos",
-                   DataNasc = DateTime.Parse("6/1/2008 12:00 AM"),
-                   Contacto = "931765432",
-                   Mail = "aliceSantos@climed.com",
-                   Morada = "Rua do Arsenal",
-                   CC = "143767529",
-                   NIF = "188876810",
-                   ClinicaFK = 3
-               },
-               new Funcionarios
-               {
-                   IdFuncionario = 4,
-                   Nome = "Jorge  Barbosa",
-                   DataNasc = DateTime.Parse("23/5/1998 12:00 AM"),
-                   Contacto = "961166762",
-                   Mail = "jorgeBarbosa@climed.com",
-                   Morada = "Avenida Angola",
-                   CC = "184451889",
-                   NIF = "188891256",
-                   ClinicaFK = 4
-               });
+                    IDProduto = 2,
+                    Designacao = "Garrote",
+                    Tipo = "Manual",
+                    Foto = "garrote.jpeg",
+                },
+                new Produtos
+                {
+                   IDProduto = 3,
+                   Designacao = "Medidor de pressão",
+                   Tipo = "Digital",
+                   Foto = "medidorPressao.jpeg",
+                },
+                new Produtos
+                {
+                   IDProduto = 4,
+                   Designacao = "Oxímetro de pulso",
+                   Tipo = "Digital",
+                   Foto = "oximetroPulso.jpeg",
+                }
+               );
 
 
 
-            modelBuilder.Entity<Materiais>().HasData(
-             new Materiais
-             {
-                 IdMaterial = 1,
-                 Descricao = "Ben-u-ron 1g comprimidos-Paracetamol",
-                 Stock = 10,
-                 Tipo = "Medicamento",
-                 PrecoCompra = Convert.ToSingle(8.90),
-                 precoVenda = Convert.ToSingle(8.90),
-                 ClinicaFK = 3
-             },
-             new Materiais
-             {
-                 IdMaterial = 2,
-                 Descricao = "Garrote",
-                 Stock = 5,
-                 Tipo = "Consumivel",
-                 PrecoCompra = Convert.ToSingle(3.50),
-                 precoVenda = Convert.ToSingle(3.50),
-                 ClinicaFK = 4
-             });
+            modelBuilder.Entity<Existencias>().HasData(
+                  new Existencias
+                  {
+                    IdExistencia = 1,
+                    Quantidade = 7,
+                    ClinicaFK = 1,
+                    ProdutoFK = 1
+                  },
+                  new Existencias
+                  {
+                    IdExistencia = 2,
+                    Quantidade = 12,
+                    ClinicaFK = 1,
+                    ProdutoFK = 2
+                  },
+                  new Existencias
+                  {
+                    IdExistencia = 3,
+                    Quantidade = 5,
+                    ClinicaFK = 1,
+                    ProdutoFK = 3
+                  },
+                  new Existencias
+                  {
+                   IdExistencia = 4,
+                   Quantidade = 10,
+                   ClinicaFK = 1,
+                   ProdutoFK = 4
+                  },
+                  new Existencias
+                  {
+                   IdExistencia = 5,
+                   Quantidade = 5,
+                   ClinicaFK = 2,
+                   ProdutoFK = 1
+                  },
+                  new Existencias
+                  {
+                   IdExistencia = 6,
+                   Quantidade = 3,
+                   ClinicaFK = 2,
+                   ProdutoFK = 2
+                  },
+                  new Existencias
+                  {
+                   IdExistencia = 7,
+                   Quantidade = 2,
+                   ClinicaFK = 2,
+                   ProdutoFK = 3
+                  },
+                  new Existencias
+                  {
+                   IdExistencia = 8,
+                   Quantidade = 2,
+                   ClinicaFK = 2,
+                   ProdutoFK = 4
+                  }
+                 );
 
 
-
-            modelBuilder.Entity<Consultas>().HasData(
-             new Consultas
-             {
-                 IdClinica = 1,
-                 DataMarcacao = DateTime.Parse("9/1/2020 03:00 PM"),
-                 EstConsulta = true,
-                 Descricao = "Consulta de Rotina",
-                 Receita = "Não Disponivel",
-                 MedicoFK = 3,
-                 UtenteFK=3,
-                 ClinicaFK = 3
-             },
-             new Consultas
-             {
-                 IdClinica = 2,
-                 DataMarcacao = DateTime.Parse("9/1/2020 03:00 PM"),
-                 EstConsulta = true,
-                 Descricao = "Consulta de Avaliação de Exames Médicos",
-                 Receita = "Não Disponivel",
-                 MedicoFK = 4,
-                 UtenteFK = 4,
-                 ClinicaFK = 4
-             });
         }
-        */
         #endregion Dados de Teste 
-
 
         public DbSet<Clinicas> Clinicas{ get; set; }
         public DbSet<Funcionarios> Funcionarios { get; set; }
-        public DbSet<Materiais> Materiais { get; set; }
-        public DbSet<Fornecedores> Fornecedores { get; set; }
-        public DbSet<Administradores> Administradores { get; set; }
-        public DbSet<Medicos> Medicos { get; set; }
+        public DbSet<Produtos> Produtos { get; set; }
+        public DbSet<Existencias> Existencias { get; set; }
+
     }
 }

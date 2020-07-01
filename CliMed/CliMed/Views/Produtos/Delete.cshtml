@@ -1,0 +1,39 @@
+﻿@model CliMed.Models.Produtos
+
+@{
+    ViewData["Title"] = "Apagar";
+}
+
+<h1>Apagar Produto</h1>
+
+<h3>Tem a certeza que quer eliminar este registo?</h3>
+<div>
+    <h4>Produtos</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Designacao)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Designacao)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Tipo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Tipo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Foto)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="~/imagens/produtos/@Model.Foto" width="150" alt="Foto Não Disponivel" title="@Model.Designacao">
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IDProduto" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Voltar a Listagem Inicial</a>
+    </form>
+</div>

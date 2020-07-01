@@ -1,0 +1,85 @@
+﻿@model IEnumerable<CliMed.Models.Funcionarios>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Funcionários</h1>
+
+<p>
+    <a asp-action="Create">Adicionar Novo Funcionário</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataNasc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contacto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Morada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NIF)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Foto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Clinica)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataNasc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contacto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Morada)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NIF)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.IdFuncionario">
+                    <img src="~/imagens/funcionarios/@item.Foto" width="115" alt="Foto Não Disponivel" title="@item.Nome" />
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Clinica.Nome)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdFuncionario">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IdFuncionario">Detalhe</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdFuncionario">Apagar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
