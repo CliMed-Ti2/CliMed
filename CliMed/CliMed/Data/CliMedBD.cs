@@ -189,6 +189,7 @@ namespace CliMed.Data
         public DbSet<Funcionarios> Funcionarios { get; set; }
         public DbSet<Produtos> Produtos { get; set; }
         public DbSet<Existencias> Existencias { get; set; }
+        public DbSet<Utilizadores> Utilizadores { get; set; }
 
     }
 }

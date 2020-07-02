@@ -98,7 +98,7 @@ namespace CliMed.Models
         /// </summary>
         [Required]
         [Display(Name = "E-Mail")]
-        [DataType(DataType.EmailAddress, ErrorMessage = "E-mail is not valid")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "O E-mail inserido não é Válido")]
         public string EMail { get; set; }
 
         /// <summary>
