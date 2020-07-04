@@ -62,7 +62,6 @@ namespace CliMed.Models
         /// <summary>
         /// Email pessoal do Utilizador
         /// </summary>
-        [Required]
         [Display(Name = "E-Mail")]
         [DataType(DataType.EmailAddress, ErrorMessage = "O E-mail inserido não é Válido")]
         public string Email { get; set; }

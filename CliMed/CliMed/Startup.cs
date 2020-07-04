@@ -1,14 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using CliMed.Data;
+
 
 namespace CliMed
 {
@@ -29,10 +27,36 @@ namespace CliMed
 
             //****************************************************************************
             // especificação do 'tipo' e 'localização' da BD
-            services.AddDbContext<Data.CliMedBD>(options =>
+            services.AddDbContext<CliMedBD>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("ConnectionDB")));
             //****************************************************************************
+
+
+
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<CliMedBD>();
+
+            /*Nota: .AddRoles<IdentityRole>()  -> Quando o Utilizador faz login é necessário que os Roles que lhe
+             estão atribuidos seja Lidos e Respectivamente Atribuídos*/
+
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+
+
+            //Serviço de Autenticação via google
+
+            services.AddAuthentication().AddGoogle(options =>
+             {
+                IConfigurationSection googleAuthNSection =
+                    Configuration.GetSection("Authentication:Google");
+
+                 options.ClientId = "271566846950-lokht9aokmqmro0s4recgqel3mptpqft.apps.googleusercontent.com";
+                 options.ClientSecret = "zKF8OSgejsZinWS7ddWpIc6z";
+             });
+
+
 
         }
 
@@ -42,6 +66,7 @@ namespace CliMed
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -54,6 +79,7 @@ namespace CliMed
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -61,6 +87,7 @@ namespace CliMed
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }

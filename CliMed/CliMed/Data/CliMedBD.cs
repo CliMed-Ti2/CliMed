@@ -1,6 +1,9 @@
 ﻿using CliMed.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +11,27 @@ using System.Threading.Tasks;
 
 namespace CliMed.Data
 {
-    public class CliMedBD: DbContext
+    public class ApplicationUser : IdentityUser
+    {
+        /// <summary>
+        /// Nome do Utilizador Autenticado
+        /// </summary>
+        public string Nome { get; set; }
+
+        /// <summary>
+        /// Nome do Ficheiro que contém a Fotografia do Utilizador
+        /// </summary>
+        public string Fotografia { get; set; }
+
+        /// <summary>
+        /// Data em que o Registo do Utilizador foi Criado 
+        /// </summary>
+        public DateTime TimeStamp { get; set; }
+
+
+    }
+
+    public class CliMedBD : IdentityDbContext<ApplicationUser>
     {
 
         public CliMedBD(DbContextOptions<CliMedBD> options) : base(options) { }
