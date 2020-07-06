@@ -8,17 +8,17 @@ namespace CliMed.Areas.Identity.Pages.Account.Manage
 {
     public static class ManageNavPages
     {
-        public static string Index => "Index";
+        public static string Index => "Indice";
 
         public static string Email => "Email";
 
-        public static string ChangePassword => "ChangePassword";
+        public static string ChangePassword => "Alterar palavra passe";
 
         public static string DownloadPersonalData => "DownloadPersonalData";
 
-        public static string DeletePersonalData => "DeletePersonalData";
+        public static string DeletePersonalData => "Apagar Dados Pessoais";
 
-        public static string ExternalLogins => "ExternalLogins";
+        public static string ExternalLogins => "Logins Externos";
 
         public static string PersonalData => "PersonalData";
 

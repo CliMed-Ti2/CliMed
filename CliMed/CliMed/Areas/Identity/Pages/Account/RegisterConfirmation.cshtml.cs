@@ -2,11 +2,20 @@
 using System.Text;
 using System.Threading.Tasks;
 using CliMed.Data;
+using System.Net.Mail;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.AspNetCore.Components.Forms;
+using MimeKit;
+using MailKit.Net.Smtp;
+using Microsoft.Extensions.DependencyInjection;
+using System.Net;
+using System.Net.Mail;
+using System;
+using SmtpClient = System.Net.Mail.SmtpClient;
 
 namespace CliMed.Areas.Identity.Pages.Account
 {
@@ -42,6 +51,41 @@ namespace CliMed.Areas.Identity.Pages.Account
             }
 
             Email = email;
+
+
+            using (SmtpClient smtpClient = new SmtpClient())
+            {
+                /*Envio do Email para o Utilizador poder Confirmar a Conta*/
+                var basicCredential = new NetworkCredential("climedm@gmail.com", "12345ABc?");
+                using (MailMessage message = new MailMessage())
+                 {
+                 MailAddress fromAddress = new MailAddress("climedm@gmail.com");
+
+                 smtpClient.Host = email;
+                 smtpClient.UseDefaultCredentials = false;
+                 smtpClient.Credentials = basicCredential;
+
+                 message.From = fromAddress;
+                 message.Subject = "your subject";
+                 // Set IsBodyHtml to true means you can send HTML email.
+                 message.IsBodyHtml = true;
+                 message.Body = "<h1>your message body</h1>";
+                 message.To.Add("climedm@gmail.com");
+
+                    try
+                    {
+                     smtpClient.Send(message);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+
+            }
+
+
+
             // Once you add a real email sender, you should remove this code that lets you confirm the account
             DisplayConfirmAccountLink = true;
             if (DisplayConfirmAccountLink)
@@ -58,5 +102,6 @@ namespace CliMed.Areas.Identity.Pages.Account
 
             return Page();
         }
+
     }
 }

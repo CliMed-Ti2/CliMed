@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CliMed.Data;
-
+using Microsoft.AspNetCore.Mvc;
 
 namespace CliMed
 {
@@ -55,6 +55,16 @@ namespace CliMed
                  options.ClientId = "271566846950-lokht9aokmqmro0s4recgqel3mptpqft.apps.googleusercontent.com";
                  options.ClientSecret = "zKF8OSgejsZinWS7ddWpIc6z";
              });
+
+
+
+            /*Configuração para o EmailSender*/
+
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new RequireHttpsAttribute());
+            });
+
 
 
 

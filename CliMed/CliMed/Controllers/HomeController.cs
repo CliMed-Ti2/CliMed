@@ -9,6 +9,7 @@ using CliMed.Models;
 
 namespace CliMed.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
